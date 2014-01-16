@@ -23,53 +23,55 @@ use UNISIM.Vcomponents.ALL;
 
 entity AlU4 is
 	port(   Cl : in std_logic; -- Clock
-			  A,B : in signed(7 downto 0); --input operands
+			  A,B : in signed(3 downto 0); --input operands
 			  Operation : in signed(3 downto 0); --select operation
-			  Result : out signed(7 downto 0);  --result
-			  Co : out std_logic; --carry output
+			  Result : out signed(3 downto 0);  --Reg3
+			  Co : out std_logic --carry output
+		); 
 	end ALU4;
 
 architecture BEHAVIORAL of ALU4 is
-	co <='0';
-process(Clk)
-begin
+signal Reg1,Reg2,Reg3 : signed(3 downto 0) := "0000";
 
-    if(rising_edge(Clk)) then --Do the calculation at the positive edge of clock cycle.
+begin
+Reg1 <= A;
+Reg2 <= B;
+Result <= Reg3;
+process(Cl)
+begin
+    if(rising_edge(Cl)) then --Do the calculation at the positive edge of clock cycle.
         case Operation is
             when "0000" => 
-                Result <= A + B;  --ADD
+                Reg3 <= Reg1 + Reg2;  --ADD
             when "0001" => 
-                Result <= A - B; --SUB
+                Reg3 <= Reg1 - Reg2; --SUB
             when "0010" => 
-                Result <= A * B;  --MUl
+                Reg3 <= Reg1 * Reg2;  --MUl
             when "0011" => 
-                Result <= A / B; --DIV 
+                Reg3 <= Reg1 / Reg2; --DIV 
             when "0100" => 
-                Result <= A nor B; --NOR              
+                Reg3 <= Reg1 nor Reg2; --NOR              
             when "0101" => 
-                Result <= A nand B;  --NAND 
+                Reg3 <= Reg1 nand Reg2;  --NAND 
             when "0110" => 
-                Result <= A or B;  --OR   
+                Reg3 <= Reg1 or Reg2;  --OR   
             when "0111" => 
-                Result <= A and B; --AND    
+                Reg3 <= Reg1 and Reg2; --AND    
             when "1000" => 
-                Result <= A xor B;  --xor
+                Reg3 <= Reg1 xor Reg2;  --xor
             when "1001" => 
-                Result <= sra A; -- shift right arithmatic
+                Reg3 <= Reg1 srl 1; --shift right logical
             when "1010" => 
-                Result <= sla A;  --shift left arithmatic
-            when "1011" => 
-                Result <= srl A; --shift right logical
-            when "1100" => 
-                Result <= sll A; --shift left logical
-				when "1101" =>
-					 Result <= ror A; -- right rotate
-				when "1110" =>
-					 Result <= rol A;  -- left rotate
-            when others =>
+                Reg3 <= Reg1 sll 1; --shift left logical
+				when "1011" =>
+					 Reg3 <= Reg1 ror 1; -- right rotate
+				when "1100" =>
+					 Reg3 <= Reg1 rol 1;  -- left rotate
+				when others =>
                 NULL;
         end case;       
     end if;
+	 end process;
 end BEHAVIORAL;
 
 
