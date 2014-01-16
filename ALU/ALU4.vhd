@@ -63,15 +63,15 @@ begin
                 Reg3 <= Reg1 srl 1; --shift right logical
             when "1010" => 
                 Reg3 <= Reg1 sll 1; --shift left logical
-				when "1011" =>
-					 Reg3 <= Reg1 ror 1; -- right rotate
-				when "1100" =>
-					 Reg3 <= Reg1 rol 1;  -- left rotate
-				when others =>
+	    when "1011" =>
+		Reg3 <= Reg1 ror 1; -- right rotate
+	    when "1100" =>
+		Reg3 <= Reg1 rol 1;  -- left rotate
+	    when others =>
                 NULL;
         end case;       
     end if;
-	 end process;
+end process;
 end BEHAVIORAL;
 
 
