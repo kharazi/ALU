@@ -37,9 +37,10 @@ begin
 Reg1 <= A;
 Reg2 <= B;
 Result <= Reg3;
+Co:= 0;
 process(Cl)
 begin
-    if(rising_edge(Cl)) then --Do the calculation at the positive edge of clock cycle.
+    if(rising_edge(Cl)) then 
         case Operation is
             when "0000" => 
                 Reg3 <= Reg1 + Reg2;  --ADD
